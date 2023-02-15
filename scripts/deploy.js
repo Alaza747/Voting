@@ -13,9 +13,7 @@ async function main() {
 
   await vote.deployed();
 
-  console.log(
-    `Deployed to ${vote.address}`
-  );
+  console.log(`Deployed to ${vote.address}`);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
