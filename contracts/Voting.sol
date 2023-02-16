@@ -5,28 +5,45 @@ pragma solidity ^0.8.9;
 import "hardhat/console.sol";
 
 contract Voting {
-
+    // Struct for all future votes, it includes the (string) question, array of options and a mapping for vote count for each option
     struct Vote {
         string voteQuestion;
         uint256[] voteOptions;
-        mapping (uint256 => uint256) voteCount;
+        mapping(uint256 => uint256) voteCount;
     }
 
-    mapping (uint16 => Vote) public votes;
+    // Here is a mapping for votes to their (uint16) IDs
+    mapping(uint16 => Vote) public votes;
     uint16 public idVote;
 
-    function createVote(string memory _question, uint256[] memory _options) public {
-    // This function should create a new vote with the given question and options. 
-    // The options are represented as an array of uint256 values, each representing the index of the option.
-    idVote++;
-    votes[idVote] = 
-     
+    function createVote(
+        string memory _question,
+        uint256[] memory _options
+    ) public {
+        // This function should create a new vote with the given question and options.
+        // The options are represented as an array of uint256 values, each representing the index of the option.
+        idVote++;
+        Vote storage newVote = votes[idVote];
+        newVote.voteQuestion = _question;
+        newVote.voteOptions = _options;
 
+        for (uint i = 0; i < _options.length; i++) {
+            newVote.voteCount[i] = 0;
+        }
+    }
+
+    function getVote(uint16 _voteId) public view returns (string memory voteQuestion, uint256[] memory voteOptions) {
+        Vote storage vote = votes[_voteId];
+        voteQuestion = vote.voteQuestion;
+        voteOptions = vote.voteOptions;
+    }
+
+    function castVote (uint256 _voteId, uint256 _option) public {
 
     }
 
-}
 
+}
 
 // function castVote(uint256 _voteId, uint256 _option) public
 // This function should cast a vote for the given option in the vote with the given id.
