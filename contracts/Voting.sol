@@ -32,18 +32,30 @@ contract Voting {
         }
     }
 
-    function getVote(uint16 _voteId) public view returns (string memory voteQuestion, uint256[] memory voteOptions) {
+
+    function getVote(
+        uint16 _voteId
+    )
+        public
+        view
+        returns (string memory voteQuestion, uint256[] memory voteOptions)
+    {
+        // This function should cast a vote for the given option in the vote with the given id.
         Vote storage vote = votes[_voteId];
         voteQuestion = vote.voteQuestion;
         voteOptions = vote.voteOptions;
     }
 
-    function castVote (uint256 _voteId, uint256 _option) public {
-
+    function castVote(uint16 _voteId, uint256 _option) public {
+        Vote storage vote = votes[_voteId];
+        vote.voteCount[_option]++;
     }
-
-
 }
+
+
+
+
+
 
 // function castVote(uint256 _voteId, uint256 _option) public
 // This function should cast a vote for the given option in the vote with the given id.
