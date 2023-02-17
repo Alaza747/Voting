@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
 // Uncomment this line to use console.log
@@ -8,7 +8,7 @@ contract Voting {
     // Struct for all future votes, it includes the (string) question, array of options and a mapping for vote count for each option
     struct Vote {
         string voteQuestion;
-        uint256[] voteOptions;
+        string[] voteOptions;
         mapping(uint256 => uint256) voteCount;
         bool open;
     }
@@ -37,7 +37,7 @@ contract Voting {
     // The options are represented as an array of uint256 values, each representing the index of the option.
     function createVote(
         string memory _question,
-        uint256[] memory _options
+        string[] memory _options
     ) public {
         idVote++;
         Vote storage newVote = votes[idVote];
@@ -56,7 +56,7 @@ contract Voting {
         uint256 _voteId
     ) public view returns (
         string memory voteQuestion,
-        uint256[] memory voteOptions,
+        string[] memory voteOptions,
         bool openStatus
     ) {
         Vote storage vote = votes[_voteId];
