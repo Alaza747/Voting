@@ -10,7 +10,7 @@ contract Voting {
         string voteQuestion;
         uint256[] voteOptions;
         mapping(uint256 => uint256) voteCount;
-        bool status;
+        bool open;
     }
 
     // Here is a mapping for votes to their (uint16) IDs
@@ -27,7 +27,7 @@ contract Voting {
         Vote storage newVote = votes[idVote];
         newVote.voteQuestion = _question;
         newVote.voteOptions = _options;
-        newVote.status = true;
+        newVote.open = true;
 
         for (uint i = 0; i < _options.length; i++) {
             newVote.voteCount[i] = 0;
@@ -50,20 +50,17 @@ contract Voting {
     // This function should cast a vote for the given option in the vote with the given id.
     function castVote(uint16 _voteId, uint256 _option) public {
         Vote storage vote = votes[_voteId];
+        require(vote.open == true, "The vote is closed, i'm sorry");
         vote.voteCount[_option]++;
     }
 
     // This function should close the vote with the given id, after which no more votes can be cast.
     function closeVote(uint16 _voteId) public {
         Vote storage vote = votes[_voteId];
-        vote.status = false;
+        vote.open = false;
     }
 }
 
-
-
-// function closeVote(uint256 _voteId) public
-// This function should close the vote with the given id, after which no more votes can be cast.
 
 // function getVote(uint256 _voteId) public view returns (string memory, uint256[], bool)
 // This function should return the question, options, and closed status of the vote with the given id.
