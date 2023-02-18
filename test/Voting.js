@@ -19,12 +19,34 @@ describe("Voting contract", function () {
 
   it("Should create a new vote", async function () {
     const question = "Favourite Number?";
-    const options = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+    const options = ["1", "2", "3", "4", "5", "6", "7", "8", "abc", "def"];
     await voting.createVote(question, options);
+    
     const vote = await voting.getVote(1);
-    expect(vote.voteQuestion).to.equal(question);
-    expect(vote.voteOptions).to.deep.equal(options);
-    expect(vote.openStatus).to.equal(true);
+    console.log(vote);
+
+
+    expect(vote[0]).to.equal(question);
+    expect(vote[1]).to.deep.equal(options);
+    expect(vote[2]).to.equal(true);
   });
+
+  // describe("Other functions", function () {
+  //   beforeEach(async function () {
+  //     const question = "Favourite Number?";
+  //     const options = ["1", "2", "3", "4", "5", "6", "7", "8", "abc", "def"];
+  //     await voting.createVote(question, options);
+  //   })
+    
+  //   it("Should be able to cast a vote", async function () {
+  //     await voting.castVote(1, 3);
+  //     const vote = await voting.getVote(1);
+  //     console.log(vote);
+  //     // expect(vote.voteCount[3].to.equal(1));
+  //   })
+
+  // })
+
+
 
 });
