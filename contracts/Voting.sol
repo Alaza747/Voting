@@ -10,7 +10,7 @@ contract Voting {
         string voteQuestion;
         string[] voteOptions;
         mapping(uint256 => uint256) voteCount;
-        bool open;
+        bool openStatus;
     }
 
     // This event should be emitted when a new vote is created. The event should include the id of the new vote.
@@ -36,7 +36,7 @@ contract Voting {
         Vote storage newVote = votes[idVote];
         newVote.voteQuestion = _question;
         newVote.voteOptions = _options;
-        newVote.open = true;
+        newVote.openStatus = true;
 
         for (uint i = 0; i < _options.length; i++) {
             newVote.voteCount[i] = 0;
@@ -51,21 +51,19 @@ contract Voting {
         public
         view
         returns (
-            string memory voteQuestion,
-            string[] memory voteOptions,
-            bool openStatus
+            string memory,
+            string[] memory,
+            bool
         )
     {
         Vote storage vote = votes[_voteId];
-        voteQuestion = vote.voteQuestion;
-        voteOptions = vote.voteOptions;
-        openStatus = vote.open;
+        return (vote.voteQuestion, vote.voteOptions, vote.openStatus);
     }
 
     // This function should cast a vote for the given option in the vote with the given id.
     function castVote(uint256 _voteId, uint256 _option) public {
         Vote storage vote = votes[_voteId];
-        require(vote.open == true, "The vote is closed, i'm sorry");
+        require(vote.openStatus == true, "The vote is closed, i'm sorry");
         vote.voteCount[_option]++;
         emit VoteCast(_voteId, _option);
     }
@@ -73,7 +71,7 @@ contract Voting {
     // This function should close the vote with the given id, after which no more votes can be cast.
     function closeVote(uint256 _voteId) public {
         Vote storage vote = votes[_voteId];
-        vote.open = false;
+        vote.openStatus = false;
         emit VoteClosed(_voteId);
     }
 }
