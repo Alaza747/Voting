@@ -60,6 +60,19 @@ contract Voting {
         return (vote.voteQuestion, vote.voteOptions, vote.openStatus);
     }
 
+    function getVoteCount(
+        uint256 _voteId,
+        uint256 _optionId
+    )
+        public 
+        view
+        returns (
+            uint256
+        )
+    {
+        return votes[_voteId].voteCount[_optionId];
+    }
+
     // This function should cast a vote for the given option in the vote with the given id.
     function castVote(uint256 _voteId, uint256 _option) public {
         Vote storage vote = votes[_voteId];
